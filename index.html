@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food-Hub Restaurant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="cart-icon">
+              🛒
+            <span class="cart-count">0</span>
+        </div>
+
+        <header class="header">
+            <h1 class="logo">Food<span> Hub</span></h1>
+        </header>
+        
+        <div class="header-actions" id="auth-area">
+             <a href="login.html" id="account-link" class="account-link">Log-in</a>
+                 <a href="signup.html" class="account-link">Sign-up</a>
+        </div>
+
+    <!-- Store Info Banner -->
+    <div class="store-info">
+        <div class="store-info-item">
+            <span class="info-label">📞 Phone:</span> +234 (0) 7049424936
+        </div>
+        <div class="store-info-item">
+            <span class="info-label">🕐 Hours:</span> Mon-Sun, 10am - 12pm
+        </div>
+        <div class="store-info-item">
+            <span class="info-label">📍 Address:</span> 114 kawo bus-stop Food Street, Kano, Nigeria
+        </div>
+    </div>
+
+    <!-- Sticky Category Navigation -->
+    <nav class="sticky-categories">
+        <h3 class="category-label">Categories:</h3>
+        <button class="category-btn active">Featured</button>
+        <button class="category-btn">Burgers</button>
+        <button class="category-btn">Pizza</button>
+        <button class="category-btn">Drinks</button>
+        <button class="category-btn">Desserts</button>
+        <button class="category-btn">Steaks</button>
+    </nav>
+
+    <!-- Price Range Filter Slider -->
+    <div class="filter-section">
+        <label for="price-filter">💰 Max Price: <span id="price-value">30 000</span></label>
+        <input type="range" id="price-filter" min="0" max="30000" value="30000" class="price-slider">
+    </div>
+
+    <!-- Dietary Filters (Checkboxes for vegan, gluten-free, spicy) -->
+    <div class="dietary-filters">
+        <label><input type="checkbox" class="dietary-checkbox" value="vegan"> 🌱 Vegan</label>
+        <label><input type="checkbox" class="dietary-checkbox" value="glutenfree"> 🌾 Gluten-Free</label>
+        <label><input type="checkbox" class="dietary-checkbox" value="spicy"> 🌶️ Spicy</label>
+        <button id="reset-filters" class="reset-btn">Clear Filters</button>
+    </div>
+
+    <div class="app">
+<main class="main-content">
+
+<!-- Account Modal -->
+<div id="account-modal" class="account-modal">
+    <div class="account-modal-content">
+        <div class="account-modal-header">
+            <h3>Your Account</h3>
+            <button id="close-account" class="account-modal-close">×</button>
+        </div>
+        <div class="account-body">
+            <h4>Order History</h4>
+            <div id="order-history-list">
+                <!-- populated by JS -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="services-section">
+    <h2 class="section-title">Our Services</h2>
+    <div class="services-grid">
+        <div class="service-card">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 2c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2H5zm0 2h14v14H5V4zm3 2v4h2V6H8zm4 0v4h2V6h-2zm4 0v4h2V6h-2z"/></svg>
+            <h3>Dine-In</h3>
+            <p>Enjoy your meal in our comfortable restaurant</p>
+        </div>
+        <div class="service-card">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M19 6h-2V4h-2v2h-6V4H9v2H7c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 14H7V8h12v12zm-5-7h4v4h-4z"/></svg>
+            <h3>Takeout</h3>
+            <p>Quick pickup of your favorite meals</p>
+        </div>
+        <div class="service-card">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18 13.5v-1c0-1.1-.9-2-2-2h-3v2h3v1h-8v-1h3V9.5H8c-1.1 0-2 .9-2 2v1H3v2h3v3c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-3h3v-2h-3zm-2 3H8v-3h8v3z"/></svg>
+            <h3>Delivery</h3>
+            <p>Hot meals delivered to your doorstep</p>
+        </div>
+        <div class="service-card">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18 9.41 12l4 4 6.3-6.29L21 12v-6z"/></svg>
+            <h3>Fast Pickup</h3>
+            <p>Ready in 15 minutes or less</p>
+        </div>
+    </div>
+</section>
+
+<!-- Special Offers Banner -->
+<section class="offers-banner">
+    <div class="offer-content">
+        <h3>🎉 Special Offer</h3>
+        <p><strong>Buy 2 Burgers, Get 20% Off!</strong> Valid until end of month</p>
+        <button class="offer-btn">View Deals</button>
+    </div>
+</section>
+
+<!-- Staff Picks / Chef's Recommendations Carousel Section -->
+<section class="staff-picks-banner">
+    <h3>👨‍🍳 Chef's Picks</h3>
+    <p>Our most popular and recommended dishes - try them today!</p>
+    
+    <!-- Chef's Picks Carousel -->
+    <div class="chefs-carousel-container">
+        <button class="carousel-btn prev" id="chefs-prev">❮</button>
+        <div class="chefs-carousel">
+            <div class="carousel-item">
+                <img src="wagyu.jpg" alt="Wagyu Steak">
+                <div class="carousel-info">
+                    <h4>Premium Wagyu Steak</h4>
+                    <p>Finest quality beef - melt in your mouth</p>
+                    <span class="carousel-price">₦28 000</span>
+                    <button class="add-btn add-to-cart">+</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="burger.jpg" alt="Gourmet Burger">
+                <div class="carousel-info">
+                    <h4>Gourmet Burger</h4>
+                    <p>Classic favorite with premium toppings</p>
+                    <span class="carousel-price">₦24 000</span>
+                    <button class="add-btn add-to-cart">+</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="pizza.jpg" alt="Margherita Pizza">
+                <div class="carousel-info">
+                    <h4>Margherita Pizza</h4>
+                    <p>Fresh, crispy, and authentic Italian taste</p>
+                    <span class="carousel-price">₦26 000</span>
+                    <button class="add-btn add-to-cart">+</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="salmonsushi.jpg" alt="Salmon Sushi">
+                <div class="carousel-info">
+                    <h4>Premium Salmon Sushi</h4>
+                    <p>Delicate, fresh, and perfectly prepared</p>
+                    <span class="carousel-price">₦22 000</span>
+                    <button class="add-btn add-to-cart">+</button>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-btn next" id="chefs-next">❯</button>
+    </div>
+</section>
+
+<section class="menu">
+    <h2 class="section-title">Featured Products</h2>
+     <div class="search-bar">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input type="text" id="menu-search" placeholder="Search for menu items...">
+    </div>
+    <div class="menu-container">
+<div class="menu-card" data-category="Featured" >
+    <img src="burger.jpg" alt="burger" class="product-img">
+    <div class="menu-info">
+        <h3>Grilled Chicken Cheese-Burger</h3>
+        <p>Delicious cheese-burger with chicken</p>
+        <div class="menu-button">
+            <span class="price">₦25 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Ratings for menu items (star display) -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (48 reviews)</div>
+        <!-- Allergen & Dietary badges (vegan, spicy, etc.) -->
+        <div class="dietary-badges">
+            <span class="badge badge-featured">⭐ Chef's Pick</span>
+            <span class="badge badge-allergen" title="Contains dairy">🥛 Dairy</span>
+        </div>
+        <!-- Nutritional info -->
+        <div class="nutrition-info" data-calories="520" data-protein="35g" data-allergens="dairy,gluten" data-prep-time="8">Calories: 520 | Protein: 35g</div>
+        <!-- Favorites button (heart icon to save items) -->
+        <button class="favorite-btn" title="Add to favorites">❤️</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Burgers" data-dietary-tags="spicy">
+    <img src="double.jpg" alt="burger" class="product-img">
+    <div class="menu-info">
+        <h3>Double Cheese-Burger</h3>
+        <p>Delicious double cheese-burger</p>
+        <div class="menu-button">
+            <span class="price">₦26 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Ratings display for customer reviews -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (156 reviews)</div>
+        <!-- Dietary badges showing item attributes -->
+        <div class="dietary-badges">
+            <span class="badge badge-spicy">🌶️ Spicy</span>
+            <span class="badge badge-allergen" title="Contains dairy, gluten">🥛 Dairy</span>
+        </div>
+        <!-- Nutritional info -->
+        <div class="nutrition-info" data-calories="780" data-protein="48g" data-allergens="dairy,gluten,soy" data-prep-time="10">Calories: 780 | Protein: 48g</div>
+        <!-- Favorites button to save items for later -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Burgers" data-dietary-tags="spicy">
+    <img src="smashed.jpg" alt="burger" class="product-img">
+    <div class="menu-info">
+        <h3>Smashed Burger </h3>
+        <p>Delicious smashed burger with steak sauce</p>
+        <div class="menu-button">
+            <span class="price">₦23 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐☆ (89 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-spicy">🌶️ Spicy</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Burgers">
+    <img src="cracked.jpg" alt="burger" class="product-img">
+    <div class="menu-info">
+        <h3>Cracked Burger</h3>
+        <p>Delicious cracked steak burger</p>
+        <div class="menu-button">
+            <span class="price">₦22 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (127 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-featured">⭐ Popular</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Burgers">
+    <img src="beef.jpg" alt="burger" class="product-img">
+    <div class="menu-info">
+        <h3>Grilled Beef-Burger</h3>
+        <p>Delicious cheese-burger with beef</p>
+        <div class="menu-button">
+            <span class="price">₦24 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (103 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges"></div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Drinks" data-dietary-tags="vegan">
+    <img src="chocomilk.jpg" alt="Chocomilk" class="product-img">
+    <div class="menu-info">
+        <h3>Chocolate Milk-Shake</h3>
+        <p>Creamy Chocolate Milk-Shake</p>
+        <div class="menu-button">
+            <span class="price">₦21 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐☆ (72 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-vegan">🌱 Vegan</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Desserts" data-dietary-tags="vegan glutenfree">
+    <img src="choculate.jpg" alt="choco" class="product-img">
+    <div class="menu-info">
+        <h3>Chocolate Cake</h3>
+        <p>Delicious choculate cake</p>
+        <div class="menu-button">
+            <span class="price">₦22 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (156 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-vegan">🌱 Vegan</span>
+            <span class="badge badge-glutenfree">🌾 Gluten-Free</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Desserts">
+    <img src="cookies.jpg" alt="cookie" class="product-img">
+    <div class="menu-info">
+        <h3>Crunchy Choco-Cookies</h3>
+        <p>Delicious choculate cookies</p>
+        <div class="menu-button">
+            <span class="price">₦20 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐☆ (64 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges"></div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Desserts" data-dietary-tags="vegan">
+    <img src="doughnut.jpg" alt="doughnut" class="product-img">
+    <div class="menu-info">
+        <h3>Colorful Dougnuts</h3>
+        <p>Delicious colorful Dougnuts </p>
+        <div class="menu-button">
+            <span class="price">₦20 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (142 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-vegan">🌱 Vegan</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Burgers" data-dietary-tags="spicy">
+    <img src="fried.jpg" alt="chicken" class="product-img">
+    <div class="menu-info">
+        <h3>Fried Chicken</h3>
+        <p>Crispy Delicious Fried Chicken</p>
+        <div class="menu-button">
+            <span class="price">₦20 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (198 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-spicy">🌶️ Spicy</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Drinks" data-dietary-tags="vegan">
+    <img src="milk.jpg" alt="Milk-Shake" class="product-img">
+    <div class="menu-info">
+        <h3>Creamy Milk-Shake</h3>
+        <p>Delicious Creamy Milk-Shake
+        </p>
+        <div class="menu-button">
+            <span class="price">₦25 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (87 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-vegan">🌱 Vegan</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Pizza" data-dietary-tags="vegan">
+    <img src="pizza.jpg" alt="pizza" class="product-img">
+    <div class="menu-info">
+        <h3>Pizza</h3>
+        <p>Delicious cheese-Pizza</p>
+        <div class="menu-button">
+            <span class="price">₦27 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (234 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-featured">⭐ Popular</span>
+            <span class="badge badge-vegan">🌱 Vegan</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Pizza" data-dietary-tags="spicy">
+    <img src="calabresa.jpg" alt="pizza" class="product-img">
+    <div class="menu-info">
+        <h3>Pizza Calabresa</h3>
+        <p>Delicious calabresa pizza</p>
+        <div class="menu-button">
+            <span class="price">₦26 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (167 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-spicy">🌶️ Spicy</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Pizza" data-dietary-tags="spicy">
+    <img src="pizza1.jpg" alt="pizza" class="product-img">
+    <div class="menu-info">
+        <h3>Pepperoni Pizza</h3>
+        <p>Delicious Pepperoni pizza</p>
+        <div class="menu-button">
+            <span class="price">₦25 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐☆ (93 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-spicy">🌶️ Spicy</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Pizza" data-dietary-tags="spicy">
+    <img src="taco.jpg" alt="pizza" class="product-img">
+    <div class="menu-info">
+        <h3>Taco Pizza</h3>
+        <p>Delicious spicy taco Pizza</p>
+        <div class="menu-button">
+            <span class="price">₦24 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (111 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-spicy">🌶️ Spicy</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Desserts" data-dietary-tags="vegan glutenfree">
+    <img src="dessert.jpg" alt="ice-cream" class="product-img">
+    <div class="menu-info">
+        <h3>Ice-Cream</h3>
+        <p>Yummy Ice-Cream</p>
+        <div class="menu-button">
+            <span class="price">₦22 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (312 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-vegan">🌱 Vegan</span>
+            <span class="badge badge-glutenfree">🌾 Gluten-Free</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Drinks" data-dietary-tags="vegan glutenfree">
+    <img src="drink.jpg" alt="orange" class="product-img">
+    <div class="menu-info">
+        <h3>Orange Juice</h3>
+        <p>Fresh squeezed cold orange juice</p>
+        <div class="menu-button">
+            <span class="price">₦20 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (245 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-vegan">🌱 Vegan</span>
+            <span class="badge badge-glutenfree">🌾 Gluten-Free</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Drinks" data-dietary-tags="vegan glutenfree">
+    <img src="coke.jpg" alt="Coke" class="product-img">
+    <div class="menu-info">
+        <h3>Coke</h3>
+        <p>Cold Coke-cola</p>
+        <div class="menu-button">
+            <span class="price">₦21 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐☆ (178 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-vegan">🌱 Vegan</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Burgers">
+    <img src="salmonsushi.jpg" alt="sushi" class="product-img">
+    <div class="menu-info">
+        <h3>Salmon Sushi</h3>
+        <p>Delicious Salmon Sushi</p>
+        <div class="menu-button">
+            <span class="price">₦22 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (89 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges"></div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Steaks">
+    <img src="grilled.jpg" alt="steak" class="product-img">
+    <div class="menu-info">
+        <h3>Ribeye Steak</h3>
+        <p>Grilled Ribeye steak with dijon honey rub </p>
+        <div class="menu-button">
+            <span class="price">₦30 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (156 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-featured">⭐ Premium Choice</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Steaks">
+    <img src="wagyu.jpg" alt="sushi" class="product-img">
+    <div class="menu-info">
+        <h3>Grilled Wagyu Steak</h3>
+        <p>Delicious Wagyu steak</p>
+        <div class="menu-button">
+            <span class="price">₦28 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (203 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-featured">⭐ Chef's Pick</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Steaks">
+    <img src="flank.jpg" alt="steak" class="product-img">
+    <div class="menu-info">
+        <h3>Flank Steak</h3>
+        <p>Delicious juicy flank steak with soy marinade</p>
+        <div class="menu-button">
+            <span class="price">₦26 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (134 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges"></div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Steaks">
+    <img src="garlic.jpg" alt="steak" class="product-img">
+    <div class="menu-info">
+        <h3>Garlic Rosemary Steak</h3>
+        <p>Delicious garlic steak</p>
+        <div class="menu-button">
+            <span class="price">₦27 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (122 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-featured">⭐ Premium Choice</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+<div class="menu-card" data-category="Steaks">
+    <img src="gordon.jpg" alt="steak" class="product-img">
+    <div class="menu-info">
+        <h3>Gordon Ramsay Steak</h3>
+        <p>Delicious gordon ramsay steak marinade</p>
+        <div class="menu-button">
+            <span class="price">₦25 000</span>
+            <button class="add-btn add-to-cart">+</button>
+        </div>
+        <!-- Customer ratings display -->
+        <div class="item-rating">⭐⭐⭐⭐⭐ (289 reviews)</div>
+        <!-- Dietary & item type badges -->
+        <div class="dietary-badges">
+            <span class="badge badge-featured">⭐ Chef's Pick</span>
+        </div>
+        <!-- Save to favorites button -->
+        <button class="favorite-btn" title="Add to favorites">🤍</button>
+    </div>
+</div>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq" class="faq-section">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div class="faq-container">
+        <div class="faq-item">
+            <h3 class="faq-question">How long does delivery take?</h3>
+            <p class="faq-answer">Delivery typically takes 30-45 minutes depending on your location.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="faq-question">Do you offer vegan options?</h3>
+            <p class="faq-answer">Yes! We have a selection of vegan meals. Check our menu for items marked with 🌱.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="faq-question">What payment methods do you accept?</h3>
+            <p class="faq-answer">We accept cash, credit cards, debit cards, and mobile payments.</p>
+        </div>
+        <div class="faq-item">
+            <h3 class="faq-question">Can I modify my order after placing it?</h3>
+            <p class="faq-answer">Yes, contact us within 5 minutes of placing your order to make changes.</p>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="about-section">
+    <h2>About Us</h2>
+    <p>Welcome to <strong>Food-Hub Restaurant</strong>!
+    We serve delicious meals crafted with the freshest ingredients.<br>
+Our mission is to provide an unforgettable dining experience with quality food, fast services, and cozy atmosphere.</p>
+</section>
+
+<!-- Photo Gallery -->
+<section class="gallery-section">
+    <h2 class="section-title">Our Restaurant</h2>
+    <div class="gallery-grid">
+        <div class="gallery-item">
+            <div class="gallery-placeholder">🍕</div>
+            <p>Signature Pizzas</p>
+        </div>
+        <div class="gallery-item">
+            <div class="gallery-placeholder">🍔</div>
+            <p>Premium Burgers</p>
+        </div>
+        <div class="gallery-item">
+            <div class="gallery-placeholder">🍗</div>
+            <p>Grilled Delights</p>
+        </div>
+        <div class="gallery-item">
+            <div class="gallery-placeholder">🍰</div>
+            <p>Desserts & Treats</p>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact-section">
+    <h2>Contact & Reservations</h2>
+    <div class="contact-container">
+        <!-- Reservation System -->
+        <div class="reservation-system">
+            <h3>Book a Table</h3>
+            <form class="reservation-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <input type="date" required>
+                <input type="time" required>
+                <select required>
+                    <option value="">Select Party Size</option>
+                    <option value="1">1 Person</option>
+                    <option value="2">2 People</option>
+                    <option value="3">3 People</option>
+                    <option value="4">4 People</option>
+                    <option value="5+">5+ People</option>
+                </select>
+                <textarea placeholder="Special Requests" rows="3"></textarea>
+                <button type="submit" class="reservation-btn">Reserve Table</button>
+            </form>
+        </div>
+
+        <!-- Contact Form -->
+            <form class="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+        <div class="map-container">
+            <!-- OpenStreetMap embed used to avoid Google API/embed restrictions -->
+            <iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=8.49%2C11.98%2C8.55%2C12.02&layer=mapnik&marker=12.0023%2C8.5226"
+                style="border:0"></iframe>
+            <br/>
+            <small><a href="https://www.openstreetmap.org/?mlat=12.0023&mlon=8.5226#map=13/12.0023/8.5226" target="_blank" rel="noopener">View larger map</a></small>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Signup -->
+<section class="newsletter-section">
+    <h2>Stay Updated</h2>
+    <p>Subscribe to our newsletter for exclusive deals and updates</p>
+    <div class="newsletter-form">
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+    </div>
+</section>
+
+<section class="reviews-section">
+    <h2>Customer Reviews</h2>
+    <div class="reviews">
+        <div class="review-card">
+            <p>"Fantastic food! Quick delivery and excellent flavor."</p>
+            <div class="stars">★★★★★</div>
+            <span class="reviewer">— Sarah L.</span>
+        </div>
+        <div class="review-card">
+            <p>"Loved the burger. Will order again."</p>
+            <div class="stars">★★★★☆</div>
+            <span class="reviewer">— Omar K.</span>
+        </div>
+        <div class="review-card">
+            <p>"Great portion sizes and friendly service."</p>
+            <div class="stars">★★★★☆</div>
+            <span class="reviewer">— Priya M.</span>
+        </div>
+    </div>
+</section>
+</main>
+<aside class="cart">
+    <h2 class="cart-title">Your Order</h2>
+    
+    <!-- Loyalty Points Display -->
+    <div class="loyalty-section">
+        <span class="loyalty-label">⭐ Points:</span>
+        <span class="loyalty-points" id="loyalty-points">0</span>
+    </div>
+    
+    
+    <div class="cart-items">
+
+    </div>
+    <div class="cart-footer">
+        <div class="total">
+   total:<span id="total-amount">₦0.00</span>
+        </div>
+        <!-- Promo Code Input Section -->
+        <div class="promo-code-section">
+            <label for="promo-code">Promo Code:</label>
+            <div class="promo-input-group">
+                <input type="text" id="promo-code" placeholder="Enter code" maxlength="20">
+                <button id="apply-promo" class="apply-promo-btn">Apply</button>
+            </div>
+            <div id="promo-message" class="promo-message"></div>
+            <div class="discount-info">
+                <p>💡 <strong>Try:</strong> SAVE20, WELCOME10</p>
+            </div>
+        </div>
+        <button class="checkout-btn" id="checkout-btn">Checkout</button>
+    </div>
+</aside>
+</div>
+
+<!-- Nutrition Info Modal -->
+<div id="nutrition-modal">
+    <div class="nutrition-modal-content">
+        <div class="nutrition-modal-header">
+            <h3 id="nutrition-item-name">Item Name</h3>
+            <button class="nutrition-modal-close" onclick="document.getElementById('nutrition-modal').classList.remove('active')">×</button>
+        </div>
+        
+        <div id="nutrition-info-body">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+</div>
+
+<!-- Prep Time Widget -->
+<div id="prep-time-widget" class="prep-time-widget">
+    <div class="prep-widget-header">⏱️ Prep Time</div>
+    <div id="prep-time-display" class="prep-time-display"></div>
+</div>
+
+<!-- Floating Combo Suggestions Banner -->
+<div id="combo-banner" class="combo-banner">
+    <div class="combo-banner-close" onclick="document.getElementById('combo-banner').classList.remove('active')">×</div>
+    <div class="combo-banner-content">
+        <h4>💡 Special Deals:</h4>
+        <div id="combo-banner-items"></div>
+    </div>
+</div>
+
+<!-- Live Chat Widget -->
+<div id="live-chat" class="live-chat-widget">
+    <div class="chat-header">Need Help?</div>
+    <div class="chat-message">We're here to assist you! 👋</div>
+    <div class="chat-input">
+        <input type="text" placeholder="Type a message..." class="chat-text">
+        <button class="chat-send">Send</button>
+    </div>
+</div>
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4>Payment Methods</h4>
+            <p>💳 Credit/Debit Cards | 📱 Mobile Money | 💵 Cash</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <p><a href="#about">About</a> | <a href="#faq">FAQ</a> | <a href="#contact">Reservations</a></p>
+        </div>
+    </div>
+    <p>&copy; 2026 Food-Hub Restaurant. All rights reserved.</p>
+    <div class="social-icons">
+        <a href="#" aria-label="Facebook" title="Facebook">
+            <!-- Facebook SVG -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07C2 17.09 5.66 21.13 10.44 22v-7.03H7.9v-2.9h2.54V9.34c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.45h-1.25c-1.23 0-1.61.77-1.61 1.56v1.87h2.74l-.44 2.9h-2.3V22C18.34 21.13 22 17.09 22 12.07z"/></svg>
+        </a>
+        <a href="#" aria-label="Instagram" title="Instagram">
+            <!-- Instagram SVG -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 6.3A4.7 4.7 0 1016.7 13 4.7 4.7 0 0012 8.3zm6.5-.9a1.1 1.1 0 11-1.1-1.1 1.1 1.1 0 011.1 1.1z"/></svg>
+        </a>
+        <a href="#" aria-label="X (Twitter)" title="X">
+            <!-- X/Twitter SVG -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22 5.92c-.63.28-1.3.47-2 .55a3.48 3.48 0 001.53-1.92 6.92 6.92 0 01-2.2.84 3.45 3.45 0 00-5.88 3.15A9.8 9.8 0 013 4.79a3.45 3.45 0 001.07 4.6 3.44 3.44 0 01-1.56-.43v.04a3.45 3.45 0 002.76 3.38c-.45.12-.93.14-1.4.05a3.46 3.46 0 003.22 2.4A6.92 6.92 0 012 19.54a9.76 9.76 0 005.29 1.55c6.35 0 9.83-5.26 9.83-9.83v-.45A7 7 0 0022 5.92z"/></svg>
+        </a>
+        <a href="#" aria-label="WhatsApp" title="WhatsApp">
+            <!-- WhatsApp SVG -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M20.52 3.48A11.93 11.93 0 0012 .5 11.87 11.87 0 001.5 11.92c0 2.1.55 4.15 1.6 5.95L.5 23.5l6.03-1.58a11.84 11.84 0 005.47 1.32h.02c6.6 0 11.98-5.38 11.98-11.98 0-3.2-1.25-6.2-3.48-8.78zM12 20.5c-1.62 0-3.2-.43-4.57-1.24l-.33-.19-3.58.94.96-3.49-.21-.36A8.1 8.1 0 013.5 11.92 8.5 8.5 0 1112 20.5zm4.67-6.56c-.26-.13-1.54-.76-1.78-.84-.24-.08-.41-.13-.58.13s-.66.84-.81 1.02c-.15.19-.31.21-.57.07-.26-.13-1.11-.41-2.12-1.31-.78-.7-1.3-1.56-1.45-1.82-.15-.26-.02-.4.12-.53.12-.12.26-.31.38-.47.13-.16.17-.27.26-.45.09-.19.05-.34-.02-.47-.07-.13-.58-1.4-.8-1.92-.21-.5-.43-.43-.58-.44l-.5-.01c-.17 0-.45.06-.69.31s-.9.88-.9 2.15.92 2.49 1.05 2.66c.13.18 1.82 2.78 4.42 3.9 3.1 1.4 3.1 0 3.66-.02.6-.03 1.95-.79 2.22-1.55.27-.77.27-1.43.19-1.56-.08-.12-.27-.19-.54-.32z"/></svg>
+        </a>
+    </div>
+</footer>
+
+ <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | Food-Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Account dashboard — upgraded visual style + responsive layout */
+        .dashboard-container {
+            max-width: 1180px;
+            margin: 28px auto;
+            padding: 28px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.90));
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(18,18,18,0.08);
+            border: 1px solid rgba(255,77,77,0.06);
+        }
+        /* Account page navigation bar */
+        .nav-container{ max-width:1180px; margin: 12px auto; padding: 0 28px; }
+        .nav-container .navigation{ display:flex; gap:12px; align-items:center; background:#fff; padding:8px 12px; border-radius:10px; box-shadow:0 8px 20px rgba(2,6,23,0.04); border:1px solid rgba(255,77,77,0.06); }
+        .nav-container .navigation a{ color:#ff4d4d; font-weight:700; text-decoration:none; padding:6px 10px; border-radius:8px; }
+        .nav-container .navigation a:hover{ background:rgba(255,77,77,0.06); }
+        .dashboard-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:18px;
+            margin-bottom:24px;
+        }
+
+        .user-profile{ display:flex; gap:16px; align-items:center; }
+        .user-avatar{
+            width:84px; height:84px; border-radius:50%;
+            background: linear-gradient(135deg,#ff6b35,#ff4d4d);
+            color:white; display:flex; align-items:center; justify-content:center;
+            font-size:28px; font-weight:700; box-shadow:0 6px 20px rgba(255,77,77,0.18);
+            letter-spacing:1px;
+        }
+        .user-meta h1{ margin:0; font-size:20px; color:#222; }
+        .muted{ color:#777; margin-top:6px; font-size:13px; }
+
+        .header-stats{ display:flex; gap:12px; margin-top:10px; }
+        .header-stats .stat{ background:#fff; padding:8px 12px; border-radius:10px; box-shadow:0 6px 18px rgba(2,6,23,0.04); text-align:center; }
+        .header-stats .stat .stat-value{ font-weight:700; color:#ff4d4d; }
+        .header-stats .stat .stat-label{ font-size:11px; color:#999; margin-top:4px; display:block; }
+
+        .logout-btn{ background:transparent; border:2px solid rgba(255,77,77,0.14); color:#ff4d4d; padding:8px 14px; border-radius:10px; font-weight:700; cursor:pointer; transition:all .18s ease; }
+        .logout-btn:hover{ background:linear-gradient(135deg,#fff0ee,#fffaf8); transform:translateY(-2px); box-shadow:0 8px 30px rgba(255,77,77,0.06); }
+
+        .dashboard-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:22px; align-items:start; }
+        .dashboard-card{ background:linear-gradient(180deg,#ffffff,#fffaf6); padding:20px; border-radius:14px; box-shadow:0 14px 40px rgba(7,9,25,0.05); border-left:6px solid rgba(255,77,77,0.08); transition:transform .18s ease; }
+        .dashboard-card:hover{ transform:translateY(-6px); }
+        .dashboard-card h2{ margin:0 0 12px 0; color:#ff4d4d; font-size:16px; }
+
+        /* Points card — big badge + progress */
+        .points-display{ display:inline-block; min-width:120px; padding:18px 18px; border-radius:12px; background: linear-gradient(135deg,#fff4ee,#fff8f6); color:#ff4d4d; font-size:24px; font-weight:800; text-align:center; box-shadow: inset 0 -6px 0 rgba(255,183,77,0.05); }
+        .points-breakdown{ margin-top:12px; padding:12px; border-radius:10px; background: linear-gradient(180deg,#fff8f0,#fff3e6); border:1px solid rgba(255,183,77,0.18); }
+        .rewards-badge{ display:inline-block; padding:6px 10px; background:rgba(255,76,76,0.08); color:#b23a2a; border-radius:999px; font-weight:700; font-size:13px; }
+
+        .tier-progress{ width:100%; background: #ffeedd; height:10px; border-radius:999px; margin-top:10px; overflow:hidden; }
+        .tier-progress-fill{ width:0%; height:100%; background: linear-gradient(90deg,#ffb74d,#ff4d4d); transition:width .6s cubic-bezier(.2,.9,.2,1); }
+        .tier-note{ font-size:12px; color:#666; margin-top:8px; }
+
+        .order-item{ border-left:4px solid rgba(255,152,0,0.12); padding:12px; background:linear-gradient(180deg,#fff,#fff8f2); box-shadow:0 8px 18px rgba(0,0,0,0.03); }
+        .favorite-item{ border-left:4px solid rgba(255,77,77,0.08); display:flex; justify-content:space-between; gap:12px; }
+        .remove-favorite-btn{ background:transparent; border:1px solid rgba(255,77,77,0.12); color:#ff4d4d; padding:6px 8px; border-radius:8px; }
+
+        .stats-row{ display:flex; gap:12px; margin-top:14px; }
+        .stat-card{ flex:1; padding:12px; border-radius:10px; background:#fff; box-shadow:0 8px 20px rgba(2,6,23,0.04); text-align:center; }
+        .stat-card .value{ font-weight:800; color:#ff4d4d; font-size:18px; }
+        .stat-card .label{ font-size:12px; color:#888; margin-top:6px; }
+
+        .empty-state{ color:#9aa0a6; background:transparent; }
+
+        @media (max-width: 1024px){
+            .dashboard-grid{ grid-template-columns: repeat(2, 1fr); }
+            .user-avatar{ width:72px; height:72px; font-size:22px; }
+        }
+        @media (max-width: 640px){
+            .dashboard-grid{ grid-template-columns: 1fr; }
+            .dashboard-header{ flex-direction:column; align-items:flex-start; gap:12px; }
+            .header-stats{ width:100%; justify-content:flex-start; }
+            .user-avatar{ width:56px; height:56px; font-size:18px; }
+            .dashboard-container{ padding:18px; margin:12px; }
+        }
+        @media (max-width: 420px){
+            .header-stats{ display:block; }
+            .header-stats .stat{ display:inline-flex; padding:6px 8px; margin-right:8px; }
+            .user-meta h1{ font-size:16px; }
+            .points-display{ min-width:90px; padding:12px 10px; font-size:18px; }
+            .rewards-badge{ font-size:12px; padding:5px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="logo">Food<span> Hub</span></h1>
+    </header>
+<div class="nav-container">
+    <nav class="navigation">
+        <a href="index.html">Home</a>
+    </nav>
+</div>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div class="user-profile">
+                <div class="user-avatar" id="user-avatar" aria-hidden="true">U</div>
+                <div class="user-meta">
+                    <h1>Welcome, <span id="user-email-display">User</span>! 👋</h1>
+                    <p class="muted">You're a valued FoodHub member</p>
+                    <div class="header-stats">
+                        <div class="stat"><div class="stat-value" id="header-points-slim">0 pts</div><div class="stat-label">Points</div></div>
+                        <div class="stat"><div class="stat-value" id="header-orders-slim">0</div><div class="stat-label">Orders</div></div>
+                        <div class="stat"><div class="stat-value" id="header-spent-slim">₦0.00</div><div class="stat-label">Spent</div></div>
+                    </div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-dashboard-btn">Logout</button>
+            <button class="logout-btn" id="delete-account-btn" style="background:#e74c3c; color:#fff; margin-left:10px;">Delete Account</button>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Loyalty Points Card -->
+            <div class="dashboard-card">
+                <h2>⭐ Your Loyalty Points</h2>
+                <div style="display:flex; align-items:center; gap:18px; justify-content:flex-start;">
+                    <div class="points-display" id="dashboard-points">0 pts</div>
+                    <div style="flex:1;">
+                        <p style="margin:0; color:#666; font-size:13px;">Earn 1 point per ₦1 000 spent — redeem points for discounts and perks.</p>
+                        <div class="points-breakdown" style="margin-top:10px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+                                <div class="rewards-badge" id="rewards-tier">Bronze</div>
+                                <div style="font-size:12px; color:#777;">Total: <strong id="dashboard-points-small">0 pts</strong></div>
+                            </div>
+                            <div class="tier-progress" aria-hidden="true" style="margin-top:10px;"><div id="tier-progress-fill" class="tier-progress-fill"></div></div>
+                            <div id="next-tier-goal" class="tier-note">100 pts to Silver</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order History Card -->
+            <div class="dashboard-card">
+                <h2>📋 Order History</h2>
+                <div id="order-history-display">
+                    <p class="empty-state">No orders yet. Start ordering!</p>
+                </div>
+            </div>
+
+            <!-- Favorite Items Card -->
+            <div class="dashboard-card">
+                <h2>❤️ Your Favorites</h2>
+                <div id="favorites-display">
+                    <p class="empty-state">No favorites yet. Add some items!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Settings -->
+        <div class="dashboard-card" style="max-width: 600px;">
+            <h2>⚙️ Account Settings</h2>
+            <p><strong>Email:</strong> <span id="account-email">user@email.com</span></p>
+            <p><strong>Member Since:</strong> <span id="account-created">--</span></p>
+            <p><strong>Total Orders:</strong> <span id="total-orders">0</span></p>
+            <p><strong>Total Spent:</strong> <span id="total-spent">₦0.00</span></p>
+            <hr style="margin: 15px 0; border: none; border-top: 1px solid #eee;">
+            <button class="logout-btn" id="logout-settings-btn" style="width: 100%;">Logout Now</button>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Payment Methods</h4>
+                <p>💳 Credit/Debit Cards | 📱 Mobile Money | 💵 Cash</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <p><a href="index.html">Home</a> | <a href="#faq">FAQ</a> | <a href="account.html">Dashboard</a></p>
+            </div>
+        </div>
+        <p>&copy; 2026 Food-Hub Restaurant. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Dashboard-specific initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const user = JSON.parse(localStorage.getItem('foodhub-current-user') || 'null');
+                if (!user) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Populate user data
+                document.getElementById('user-email-display').textContent = user.email.split('@')[0];
+                document.getElementById('account-email').textContent = user.email;
+                document.getElementById('dashboard-points').textContent = (user.points || 0) + ' pts';
+                document.getElementById('total-orders').textContent = (user.orders || []).length;
+
+                // Calculate total spent
+                const totalSpent = (user.orders || []).reduce((sum, o) => sum + (o.total || 0), 0);
+                document.getElementById('total-spent').textContent = '₦' + totalSpent.toFixed(2);
+
+                // populate header summary chips & avatar (if present)
+                const headerPointsEl = document.getElementById('header-points-slim');
+                if (headerPointsEl) headerPointsEl.textContent = (user.points || 0) + ' pts';
+                const headerOrdersEl = document.getElementById('header-orders-slim');
+                if (headerOrdersEl) headerOrdersEl.textContent = (user.orders || []).length;
+                const headerSpentEl = document.getElementById('header-spent-slim');
+                if (headerSpentEl) headerSpentEl.textContent = '₦' + totalSpent.toFixed(2);
+                const avatarEl = document.getElementById('user-avatar');
+                if (avatarEl) avatarEl.textContent = (user.email || '').charAt(0).toUpperCase();
+
+                // Show member since date
+                if (user.createdAt) {
+                    const date = new Date(user.createdAt);
+                    document.getElementById('account-created').textContent = date.toLocaleDateString();
+                }
+
+                // Populate order history
+                const orderHistoryDiv = document.getElementById('order-history-display');
+                if (user.orders && user.orders.length > 0) {
+                    orderHistoryDiv.innerHTML = user.orders.slice(0, 5).map(order => `
+                        <div class="order-item">
+                            <div class="order-item-header">
+                                <span class="order-id">Order #${order.id}</span>
+                                <span class="order-total">₦${(order.total || 0).toFixed(2)}</span>
+                            </div>
+                            <div class="order-date">${new Date(order.date).toLocaleDateString()}</div>
+                            <div class="order-items-list">
+                                ${(order.items || []).map(i => `${i.quantity}× ${i.name}`).join(', ')}
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                // Populate favorites
+                const favoriteItems = JSON.parse(localStorage.getItem('foodhub-favorites') || '[]');
+                const favoritesDiv = document.getElementById('favorites-display');
+                if (favoriteItems.length > 0) {
+                    // Use data-attribute instead of inline onclick to safely handle quotes in names
+                    favoritesDiv.innerHTML = favoriteItems.map(fav => `
+                        <div class="favorite-item">
+                            <span class="favorite-name">${fav}</span>
+                            <button class="remove-favorite-btn" data-item="${encodeURIComponent(fav)}">Remove</button>
+                        </div>
+                    `).join('');
+
+                    // Attach event listeners to newly created buttons
+                    favoritesDiv.querySelectorAll('.remove-favorite-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const item = decodeURIComponent(btn.dataset.item || '');
+                            removeFavoriteDashboard(item);
+                        });
+                    });
+                }
+
+                // Show rewards tier + progress bar
+                const points = user.points || 0;
+                let tier = 'Bronze';
+                let progressPercent = 0;
+                let nextTierLabel = 'Silver';
+                let nextTierThreshold = 100;
+
+                if (points >= 500) {
+                    tier = 'Platinum';
+                    progressPercent = 100;
+                    nextTierLabel = null;
+                } else if (points >= 300) {
+                    tier = 'Gold';
+                    progressPercent = Math.min(100, ((points - 300) / (500 - 300)) * 100);
+                    nextTierLabel = 'Platinum';
+                    nextTierThreshold = 500;
+                } else if (points >= 100) {
+                    tier = 'Silver';
+                    progressPercent = Math.min(100, ((points - 100) / (300 - 100)) * 100);
+                    nextTierLabel = 'Gold';
+                    nextTierThreshold = 300;
+                } else {
+                    tier = 'Bronze';
+                    progressPercent = Math.min(100, (points / 100) * 100);
+                    nextTierLabel = 'Silver';
+                    nextTierThreshold = 100;
+                }
+
+                const rewardsEl = document.getElementById('rewards-tier');
+                if (rewardsEl) rewardsEl.textContent = tier + ' (' + points + ' pts)';
+
+                const smallPoints = document.getElementById('dashboard-points-small');
+                if (smallPoints) smallPoints.textContent = (points || 0) + ' pts';
+
+                const progressFill = document.getElementById('tier-progress-fill');
+                if (progressFill) progressFill.style.width = progressPercent.toFixed(0) + '%';
+
+                const nextGoalEl = document.getElementById('next-tier-goal');
+                if (nextGoalEl) {
+                    if (nextTierLabel) {
+                        const needed = Math.max(0, nextTierThreshold - points);
+                        nextGoalEl.textContent = needed > 0 ? `${needed} pts to ${nextTierLabel}` : `Eligible for ${nextTierLabel}`;
+                    } else {
+                        nextGoalEl.textContent = 'You are at the top tier 🎉';
+                    }
+                }
+
+                // Logout handlers
+                document.getElementById('logout-dashboard-btn')?.addEventListener('click', logout);
+                document.getElementById('logout-settings-btn')?.addEventListener('click', logout);
+                // Delete account handler
+                document.getElementById('delete-account-btn')?.addEventListener('click', () => {
+                    if (!confirm('Are you sure you want to permanently delete your account? This cannot be undone.')) return;
+                    try {
+                        const currentUser = JSON.parse(localStorage.getItem('foodhub-current-user') || 'null');
+                        if (currentUser && currentUser.email) {
+                            // Get all users and filter out the current one
+                            let users = JSON.parse(localStorage.getItem('foodhub-users') || '[]');
+                            users = users.filter(u => u.email.toLowerCase() !== currentUser.email.toLowerCase());
+                            // Save updated user list
+                            localStorage.setItem('foodhub-users', JSON.stringify(users));
+                        }
+                        // Clear current logged-in user
+                        localStorage.removeItem('foodhub-current-user');
+                        alert('Your account has been deleted.');
+                        window.location.href = 'index.html';
+                    } catch (err) {
+                        console.error('Error deleting account:', err);
+                        alert('Failed to delete account. Please try again.');
+                    }
+                });
+            } catch (err) {
+                // Redirect to login silently if dashboard data is invalid or missing
+                window.location.href = 'login.html';
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('foodhub-current-user');
+            window.location.href = 'index.html';
+        }
+
+        function removeFavoriteDashboard(item) {
+            let favorites = JSON.parse(localStorage.getItem('foodhub-favorites') || '[]');
+            favorites = favorites.filter(f => f !== item);
+            localStorage.setItem('foodhub-favorites', JSON.stringify(favorites));
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
